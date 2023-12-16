@@ -1,0 +1,4 @@
+node_modules
+dist
+parcel-debug.log
+.parcel-cache
