@@ -4,6 +4,8 @@ import { Fraction } from "fractional";
 class RecipeView {
   #parentElement = document.querySelector(".recipe");
   #data;
+  #errorMarkUp = "We could not find your recipe. Please try again!!";
+  #message = "";
 
   render(data) {
     this.#data = data;
@@ -31,6 +33,39 @@ class RecipeView {
     this.#clear();
     this.#parentElement.insertAdjacentHTML("afterbegin", spinnerMarkUp);
   };
+
+  renderError(message = this.#errorMarkUp) {
+    const errorMarkUp = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="src/img/icons.svg#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+    // Remove any existing content inside parentElement
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML("afterbegin", errorMarkUp);
+  }
+
+  renderSuccess(message = this.#message) {
+    const errorMarkUp = `
+      <div class="message">
+        <div>
+          <svg>
+            <use href="src/img/icons.svg#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+
+    // Remove any existing content inside parentElement
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML("afterbegin", errorMarkUp);
+  }
 
   // This method acts like a publisher because it listening to the events,
   // and the subscriber is the caller of this method.
