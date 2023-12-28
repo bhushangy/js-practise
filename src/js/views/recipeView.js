@@ -2,39 +2,46 @@ import icons from "url:../../img/icons.svg";
 import { Fraction } from "fractional";
 
 class RecipeView {
-    #parentElement = document.querySelector(".recipe");
-    #data;
+  #parentElement = document.querySelector(".recipe");
+  #data;
 
-    render(data) {
-        this.#data = data;
-        const markUp = this.#generateMarkup();
-        this.#clear();
-        // Insert markup as the first child of recipeContainer
-        this.#parentElement.insertAdjacentHTML("afterbegin", markUp);
-    }
+  render(data) {
+    this.#data = data;
+    const markUp = this.#generateMarkup();
+    this.#clear();
+    // Insert markup as the first child of recipeContainer
+    this.#parentElement.insertAdjacentHTML("afterbegin", markUp);
+  }
 
-    // Remove any existing content inside recipeContainer i.e spinner
-    #clear() {
-        this.#parentElement.innerHTML = "";
-    }
+  // Remove any existing content inside recipeContainer i.e spinner
+  #clear() {
+    this.#parentElement.innerHTML = "";
+  }
 
-    // Public method because controller needs to call this while fethcing data
-    renderSpinner = () => {
-        const spinnerMarkUp = `
+  // Public method because controller needs to call this while fethcing data
+  renderSpinner = () => {
+    const spinnerMarkUp = `
     <div class="spinner">
       <svg>
         <use href="${icons}#icon-loader"></use>
       </svg>
     </div>
     `;
-        // Remove any existing content inside parentElement
-        this.#clear();
-        this.#parentElement.insertAdjacentHTML("afterbegin", spinnerMarkUp);
-    };
+    // Remove any existing content inside parentElement
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML("afterbegin", spinnerMarkUp);
+  };
 
-    #generateMarkup() {
-        console.log(this.#data);
-        return `
+  // This method acts like a publisher because it listening to the events,
+  // and the subscriber is the caller of this method.
+  addHandlerRender(handler) {
+    ["hashchange", "load"].forEach((event) =>
+      window.addEventListener(event, handler)
+    );
+  }
+
+  #generateMarkup() {
+    return `
       <figure class="recipe__fig">
         <img src="${this.#data.imageUrl}" alt="Tomato" class="recipe__img" />
         <h1 class="recipe__title">
@@ -113,28 +120,28 @@ class RecipeView {
         </a>
       </div>
     </>`;
-    }
+  }
 
-    #generateMarkupIngredient(ingredients) {
-        return ingredients
-            .map(
-                (ingredient) =>
-                    `<li class="recipe__ingredient">
+  #generateMarkupIngredient(ingredients) {
+    return ingredients
+      .map(
+        (ingredient) =>
+          `<li class="recipe__ingredient">
                 <svg class="recipe__icon">
                   <use href="${icons}#icon-check"></use>
                 </svg>
                 <div class="recipe__quantity">${ingredient.quantity
-                        ? new Fraction(ingredient.quantity).toString()
-                        : ""
-                    }</div>
+            ? new Fraction(ingredient.quantity).toString()
+            : ""
+          }</div>
                 <div class="recipe__description">
                   <span class="recipe__unit">${ingredient.unit}</span>
                   ${ingredient.description}
                 </div>
               </li>`
-            )
-            .join("");
-    }
+      )
+      .join("");
+  }
 }
 
 export default new RecipeView();

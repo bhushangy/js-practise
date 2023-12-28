@@ -1,14 +1,6 @@
 import * as model from "./model.js";
 import recipeView from "./views/recipeView.js";
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
-
 async function controlRecipes() {
   try {
     // Get the id from the url
@@ -29,6 +21,8 @@ async function controlRecipes() {
   }
 }
 
-["hashchange", "load"].forEach((event) =>
-  window.addEventListener(event, controlRecipes)
-);
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+};
+
+init();
