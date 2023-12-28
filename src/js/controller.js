@@ -1,5 +1,6 @@
 import * as model from "./model.js";
 import recipeView from "./views/recipeView.js";
+import searchView from "./views/searchView.js";
 
 async function controlRecipes() {
   try {
@@ -21,8 +22,20 @@ async function controlRecipes() {
   }
 }
 
+const controlSearchResults = async function () {
+  try {
+    const query = searchView.getQuery();
+    if (!query.trim()) return;
+    await model.loadSearchResults(query);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addSearchButtonClickHandler(controlSearchResults);
 };
 
 init();
