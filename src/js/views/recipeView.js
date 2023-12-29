@@ -1,71 +1,11 @@
+import View from "./view";
 import icons from "url:../../img/icons.svg";
 import { Fraction } from "fractional";
 
-class RecipeView {
-  #parentElement = document.querySelector(".recipe");
-  #data;
-  #errorMarkUp = "We could not find your recipe. Please try again!!";
-  #message = "";
-
-  render(data) {
-    this.#data = data;
-    const markUp = this.#generateMarkup();
-    this.#clear();
-    // Insert markup as the first child of recipeContainer
-    this.#parentElement.insertAdjacentHTML("afterbegin", markUp);
-  }
-
-  // Remove any existing content inside recipeContainer i.e spinner
-  #clear() {
-    this.#parentElement.innerHTML = "";
-  }
-
-  // Public method because controller needs to call this while fethcing data
-  renderSpinner = () => {
-    const spinnerMarkUp = `
-    <div class="spinner">
-      <svg>
-        <use href="${icons}#icon-loader"></use>
-      </svg>
-    </div>
-    `;
-    // Remove any existing content inside parentElement
-    this.#clear();
-    this.#parentElement.insertAdjacentHTML("afterbegin", spinnerMarkUp);
-  };
-
-  renderError(message = this.#errorMarkUp) {
-    const errorMarkUp = `
-      <div class="error">
-        <div>
-          <svg>
-            <use href="src/img/icons.svg#icon-alert-triangle"></use>
-          </svg>
-        </div>
-        <p>${message}</p>
-      </div>
-    `;
-    // Remove any existing content inside parentElement
-    this.#clear();
-    this.#parentElement.insertAdjacentHTML("afterbegin", errorMarkUp);
-  }
-
-  renderSuccess(message = this.#message) {
-    const errorMarkUp = `
-      <div class="message">
-        <div>
-          <svg>
-            <use href="src/img/icons.svg#icon-smile"></use>
-          </svg>
-        </div>
-        <p>${message}</p>
-      </div>
-    `;
-
-    // Remove any existing content inside parentElement
-    this.#clear();
-    this.#parentElement.insertAdjacentHTML("afterbegin", errorMarkUp);
-  }
+class RecipeView extends View {
+  _parentElement = document.querySelector(".recipe");
+  _errorMsg = "We could not find your recipe. Please try again!!";
+  _message = "";
 
   // This method acts like a publisher because it listening to the events,
   // and the subscriber is the caller of this method.
@@ -75,12 +15,12 @@ class RecipeView {
     );
   }
 
-  #generateMarkup() {
+  _generateMarkup() {
     return `
       <figure class="recipe__fig">
-        <img src="${this.#data.imageUrl}" alt="Tomato" class="recipe__img" />
+        <img src="${this._data.imageUrl}" alt="Tomato" class="recipe__img" />
         <h1 class="recipe__title">
-          <span>${this.#data.title}</span>
+          <span>${this._data.title}</span>
         </h1>
       </figure>
 
@@ -90,7 +30,7 @@ class RecipeView {
             <use href="${icons}#icon-clock"></use>
           </svg>
           <span class="recipe__info-data recipe__info-data--minutes">
-            ${this.#data.cookingTime}
+            ${this._data.cookingTime}
           </span>
           <span class="recipe__info-text">minutes</span>
         </div>
@@ -99,7 +39,7 @@ class RecipeView {
             <use href="${icons}#icon-users"></use>
           </svg>
           <span class="recipe__info-data recipe__info-data--people">
-            ${this.#data.servings}
+            ${this._data.servings}
           </span>
           <span class="recipe__info-text">servings</span>
 
@@ -118,9 +58,7 @@ class RecipeView {
         </div>
 
         <div class="recipe__user-generated">
-          <svg>
-            <use href="${icons}#icon-user"></use>
-          </svg>
+          
         </div>
         <button class="btn--round">
           <svg class="">
@@ -132,7 +70,7 @@ class RecipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-          ${this.#generateMarkupIngredient(this.#data.ingredients)}
+          ${this._generateMarkupIngredient(this._data.ingredients)}
         </ul>
       </div>
 
@@ -140,12 +78,12 @@ class RecipeView {
         <h2 class="heading--2">How to cook it</h2>
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
-          <span class="recipe__publisher">${this.#data.publsiher}</span>. Please
+          <span class="recipe__publisher">${this._data.publsiher}</span>. Please
           check out directions at their website.
         </p>
         <a
           class="btn--small recipe__btn"
-          href=${this.#data.sourceUrl}
+          href=${this._data.sourceUrl}
           target="_blank"
         >
           <span>Directions</span>
@@ -157,7 +95,7 @@ class RecipeView {
     </>`;
   }
 
-  #generateMarkupIngredient(ingredients) {
+  _generateMarkupIngredient(ingredients) {
     return ingredients
       .map(
         (ingredient) =>
