@@ -12,6 +12,38 @@ export default class View {
 		this._parentElement.insertAdjacentHTML("afterbegin", markUp);
 	}
 
+	update(data) {
+		this._data = data;
+		const updatedMarkup = this._generateMarkup();
+
+		const updatedDom = document
+			.createRange()
+			.createContextualFragment(updatedMarkup);
+		const newDomElements = Array.from(updatedDom.querySelectorAll("*"));
+		const currentDomElements = Array.from(
+			this._parentElement.querySelectorAll("*")
+		);
+
+		newDomElements.forEach((newDomElement, index) => {
+			const currentDomElement = currentDomElements[index];
+
+			// Updates text content of the changed nodes
+			if (
+				!newDomElement.isEqualNode(currentDomElement) &&
+				newDomElement.firstChild?.nodeValue.trim() !== ""
+			) {
+				currentDomElement.textContent = newDomElement.textContent;
+			}
+
+			// Updates attributes of the changed nodes
+			if (!newDomElement.isEqualNode(currentDomElement)) {
+				Array.from(newDomElement.attributes).forEach((attribute) =>
+					currentDomElement.setAttribute(attribute.name, attribute.value)
+				);
+			}
+		});
+	}
+
 	// Remove any existing content inside recipeContainer i.e spinner
 	_clear() {
 		this._parentElement.innerHTML = "";

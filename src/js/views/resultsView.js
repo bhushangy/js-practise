@@ -1,15 +1,19 @@
 import View from "./view";
 
 class ResultsView extends View {
-	_parentElement = document.querySelector(".results");
-	_errorMsg = "No recipes found. Please try again!!";
+  _parentElement = document.querySelector(".results");
+  _errorMsg = "No recipes found. Please try again!!";
 
-	_generateMarkup() {
-		return this._data
-			.map((recipe) => {
-				return `
+  _generateMarkup() {
+    const currentRecipeId = window.location.hash.slice(1);
+
+    return this._data
+      .map((recipe) => {
+        return `
         <li class="preview">
-          <a class="preview__link preview__link--active" href="#${recipe.id}">
+          <a class="preview__link ${
+            currentRecipeId === recipe.id ? "preview__link--active" : ""
+          }" href="#${recipe.id}">
             <figure class="preview__fig">
               <img src="${recipe.imageUrl}" alt="${recipe.title}" />
             </figure>
@@ -20,9 +24,9 @@ class ResultsView extends View {
           </a>
         </li>
         `;
-			})
-			.join("");
-	}
+      })
+      .join("");
+  }
 }
 
 export default new ResultsView();

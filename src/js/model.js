@@ -1,6 +1,5 @@
-import { API_URL, RESULTS_PER_PAGE } from "./config";
+import { API_URL, RESULTS_PER_PAGE, INITIAL_RESULTS_ARRAY } from "./config";
 import { getJSON } from "./helpers";
-import { RESULTS_PER_PAGE, INITIAL_RESULTS_ARRAY } from "./config";
 
 export const state = {
   recipe: {},
