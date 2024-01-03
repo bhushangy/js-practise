@@ -16,10 +16,7 @@ async function controlRecipes() {
     resultsView.update(model.getPaginatedSearchResults());
 
     // Update bookmarks with selected recipe
-    const res = model.state.bookmarks.find((bookmark) => bookmark.id === id);
-    if (res) {
-      bookmarksView.update(model.state.bookmarks);
-    }
+    bookmarksView.update(model.state.bookmarks);
 
     // Show spinner
     recipeView.renderSpinner();
