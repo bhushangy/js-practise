@@ -2,6 +2,7 @@ import * as model from "./model.js";
 import paginationView from "./views/paginationView.js";
 import recipeView from "./views/recipeView.js";
 import resultsView from "./views/resultsView.js";
+import bookmarksView from "./views/bookmarksView.js";
 import searchView from "./views/searchView.js";
 
 async function controlRecipes() {
@@ -13,6 +14,12 @@ async function controlRecipes() {
 
     // Update results with selected class
     resultsView.update(model.getPaginatedSearchResults());
+
+    // Update bookmarks with selected recipe
+    const res = model.state.bookmarks.find((bookmark) => bookmark.id === id);
+    if (res) {
+      bookmarksView.update(model.state.bookmarks);
+    }
 
     // Show spinner
     recipeView.renderSpinner();
@@ -54,7 +61,10 @@ const controlAddBookmark = function () {
   if (model.state.recipe.bookmarked)
     model.removeBookmark(model.state.recipe.id);
   else model.addBookmark(model.state.recipe);
+
   recipeView.update(model.state.recipe);
+
+  bookmarksView.render(model.state.bookmarks);
 };
 
 const init = function () {
