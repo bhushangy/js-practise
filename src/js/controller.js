@@ -15,9 +15,6 @@ async function controlRecipes() {
     // Update results with selected class
     resultsView.update(model.getPaginatedSearchResults());
 
-    // Update bookmarks with selected recipe
-    bookmarksView.update(model.state.bookmarks);
-
     // Show spinner
     recipeView.renderSpinner();
 
@@ -26,6 +23,9 @@ async function controlRecipes() {
 
     // Render recipe
     recipeView.render(model.state.recipe);
+
+    // Update bookmarks with selected recipe
+    bookmarksView.update(model.state.bookmarks);
   } catch (error) {
     recipeView.renderError(error);
   }
@@ -64,7 +64,13 @@ const controlAddBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const bookmarksController = function () {
+  bookmarksView.render(model.state.bookmarks);
+};
+
 const init = function () {
+  model.retrieveBookmarks();
+  bookmarksView.addBookmarksHandler(bookmarksController);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addServingsHandler(controlServings);
   recipeView.addBookmarkHandler(controlAddBookmark);

@@ -1,4 +1,9 @@
-import { API_URL, RESULTS_PER_PAGE, INITIAL_RESULTS_ARRAY } from "./config";
+import {
+  API_URL,
+  RESULTS_PER_PAGE,
+  INITIAL_RESULTS_ARRAY,
+  BOOKMARKS_LOCAL_STORAGE_KEY,
+} from "./config";
 import { getJSON } from "./helpers";
 
 export const state = {
@@ -85,6 +90,8 @@ export const updateServings = function (newServings) {
 export const addBookmark = function (recipe) {
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
   state.bookmarks.push(recipe);
+
+  persistBookmarks();
 };
 
 export const removeBookmark = function (id) {
@@ -94,4 +101,20 @@ export const removeBookmark = function (id) {
   state.bookmarks.splice(bookmarkedRecipeIndex, 1);
 
   if (id === state.recipe.id) state.recipe.bookmarked = false;
+
+  persistBookmarks();
+};
+
+export const persistBookmarks = function () {
+  localStorage.setItem(
+    BOOKMARKS_LOCAL_STORAGE_KEY,
+    JSON.stringify(state.bookmarks)
+  );
+};
+
+export const retrieveBookmarks = function () {
+  const bookmarks = localStorage.getItem(BOOKMARKS_LOCAL_STORAGE_KEY);
+  if (bookmarks) {
+    state.bookmarks = JSON.parse(bookmarks);
+  }
 };
