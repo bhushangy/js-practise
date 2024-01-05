@@ -2,10 +2,10 @@
   "name": "js-practise",
   "version": "1.0.0",
   "description": "Just practicing javascript",
-  "default": "src/index.html",
+  "default": "index.html",
   "scripts": {
-    "start": "npx parcel src/index.html",
-    "build": "npx parcel build src/index.html --dist-dir ./dist"
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "author": "Bhushan",
   "license": "ISC",
