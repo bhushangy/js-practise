@@ -2,18 +2,19 @@
   "name": "js-practise",
   "version": "1.0.0",
   "description": "Just practicing javascript",
-  "default": "index.html",
+  "type": "module",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html --dist-dir ./dist"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "author": "Bhushan",
   "license": "ISC",
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.10.3",
-    "parcel": "^2.10.3"
+    "sass": "^1.69.7",
+    "vite": "^5.0.8"
   },
   "dependencies": {
-    "fractional": "^1.0.0"
+    "fracty": "^1.0.11"
   }
 }
