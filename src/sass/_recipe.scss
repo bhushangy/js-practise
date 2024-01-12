@@ -19,8 +19,8 @@
       left: 0;
       background-image: linear-gradient(
         to right bottom,
-        $color-grad-1,
-        $color-grad-2
+          $color-grad-1,
+          $color-grad-2
       );
       opacity: 0.6;
     }
@@ -52,8 +52,8 @@
       padding: 1.3rem 2rem;
       background-image: linear-gradient(
         to right bottom,
-        $color-grad-1,
-        $color-grad-2
+          $color-grad-1,
+          $color-grad-2
       );
     }
 
@@ -67,7 +67,7 @@
   &__details {
     display: flex;
     align-items: center;
-    padding: 7.5rem 8rem 3.5rem 8rem;
+        padding: 7.5rem 8rem 3.5rem 8rem;
   }
 
   &__info {
@@ -117,6 +117,10 @@
       width: 2.25rem;
       fill: $color-primary;
     }
+  }
+
+  &__book {
+    margin-left: auto;
   }
 
   ///////////
